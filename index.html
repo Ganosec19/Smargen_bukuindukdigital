@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartGen Academy Learning — Portal Resmi Buku Induk Digital (Rombel 50 Siswa)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --gov-dark: #0b192c;
+      --gov-blue: #1e3e62;
+      --gov-accent: #ff6500;
+      --gov-light: #f5f7fa;
+    }
+    body { background-color: var(--gov-light); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155; }
+    
+    .gov-header {
+      background: linear-gradient(135deg, var(--gov-dark) 0%, var(--gov-blue) 100%);
+      color: white;
+      padding: 15px 0;
+      border-bottom: 4px solid var(--gov-accent);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .pro-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 30px rgba(11, 25, 44, 0.06);
+      overflow: hidden;
+    }
+
+    .pro-card-header {
+      background: var(--gov-blue);
+      color: white;
+      padding: 18px 20px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .welcome-box {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      border-left: 6px solid #2563eb;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .form-control-equal {
+      height: 48px !important;
+      font-size: 0.95rem;
+    }
+
+    .ticker-container {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 15px;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+    .ticker-text {
+      display: inline-block;
+      animation: scrollTicker 25s linear infinite;
+      font-size: 0.85rem;
+      color: #1e3e62;
+      font-weight: 500;
+    }
+    @keyframes scrollTicker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .menu-item-card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.25s ease;
+      height: 100%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .menu-item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(30, 62, 98, 0.1);
+      border-color: #93c5fd;
+    }
+    .menu-icon {
+      width: 55px; height: 55px;
+      background: #eff6ff;
+      color: #1e3e62;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 15px auto;
+    }
+
+    .app-main-content { display: none; }
+    
+    /* Styling Tim Pengembang */
+    .team-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.2s ease;
+    }
+    .team-item:last-child { border-bottom: none; }
+    .team-item:hover { background: #f8fafc; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER RESMI -->
+  <header class="gov-header">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <div class="bg-warning text-dark p-2 rounded-3 fw-bold fs-5">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h6 class="mb-0 fw-bold tracking-wide">SMARTGEN ACADEMY LEARNING</h6>
+          <span class="text-white-50" style="font-size: 0.75rem;">Portal Resmi Buku Induk Digital & Arsip Satuan Pendidikan</span>
+        </div>
+      </div>
+      <div class="d-none d-md-block text-end">
+        <span class="badge bg-success px-3 py-2 rounded-pill small"><i class="fa-solid fa-shield-halved me-1"></i> Berlisensi Resmi</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- LAYAR OTENTIKASI & SAMBUTAN -->
+  <div id="screenLock" class="container py-4" style="max-width: 900px;">
+    
+    <div class="welcome-box">
+      <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
+        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; min-width: 50px; font-size: 1.3rem;">
+          <i class="fa-solid fa-hands-praying"></i>
+        </div>
+        <div>
+          <h4 class="fw-bold text-dark mb-0 fs-5 fs-md-4">Selamat Datang di Portal Buku Induk Digital</h4>
+          <span class="text-muted small">SmartGen Academy Learning — Solusi Modern Pengganti Arsip Buku Fisik Manual</span>
+        </div>
+      </div>
+      
+      <p class="text-secondary small mb-2" style="line-height: 1.7;">
+        <i>Yth. Pimpinan, Administrator, dan Operator Satuan Pendidikan di Seluruh Indonesia,</i>
+      </p>
+      <p class="text-secondary small mb-3" style="line-height: 1.7;">
+        Kami ucapkan selamat datang dan terima kasih atas kepercayaan Anda menggunakan perangkat lunak <b>Buku Induk Digital Rombel 50 Siswa</b> dari <b>SmartGen Academy Learning</b>. Aplikasi ini dibangun secara profesional untuk mengamankan data historis dan legalitas peserta didik dari risiko kerusakan fisik, redaksi manual yang melelahkan, serta menjamin presisi cetak berukuran A4 tanpa kendala halaman kosong.
+      </p>
+
+      <div class="alert alert-primary py-2 px-3 small mb-0 d-flex align-items-center gap-2 rounded-3">
+        <i class="fa-solid fa-circle-info fs-5 text-primary"></i>
+        <div><b>Panduan Akses:</b> Masukkan NPSN dan Nama Satuan Pendidikan lembaga Anda di bawah ini untuk mengaktifkan lisensi eksklusif aplikasi.</div>
+      </div>
+    </div>
+
+    <!-- KARTU FORMULIR OTENTIKASI LISENSI -->
+    <div class="pro-card mb-4">
+      <div class="pro-card-header">
+        <i class="fa-solid fa-key text-warning"></i> Otentikasi Lisensi & Aktivasi Lembaga (Masa Aktif 1 Tahun)
+      </div>
+      <div class="p-4">
+        
+        <!-- BANNER HARGA PROMO -->
+        <div class="text-center bg-light p-3 rounded-3 border mb-4">
+          <span class="badge bg-danger mb-1">PROMO SPESIAL AKREDITASI</span>
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <span class="text-muted text-decoration-line-through fs-6">Rp550.000</span>
+            <span class="fs-3 fw-bold text-primary">Rp180.000</span>
+            <span class="text-muted small">/ tahun</span>
+          </div>
+          <p class="text-muted small mb-0 mt-1">Lisensi aktif otomatis selama 1 tahun penuh dengan sistem pengingat perpanjangan berkala.</p>
+        </div>
+
+        <!-- STEP 1: FORMULIR -->
+        <div id="stepForm">
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">NPSN <span class="text-danger">*</span></label>
+              <input type="text" id="inputNpsn" class="form-control form-control-equal" placeholder="Masukkan 8 digit NPSN">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label small fw-bold">Nama Satuan Pendidikan Lengkap <span class="text-danger">*</span></label>
+              <input type="text" id="inputNamaLembaga" class="form-control form-control-equal" placeholder="Contoh: PKBM / SMP / SMA / SKB ...">
+            </div>
+          </div>
+          <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm mb-3" onclick="prosesBeliLisensi()">
+            <i class="fa-solid fa-qrcode me-1"></i> Klaim Promo & Lanjut Pembayaran (Rp180.000)
+          </button>
+        </div>
+
+        <!-- STEP 2: QRIS (TERSEMBUNYI) -->
+        <div id="stepQris" style="display: none;" class="text-center py-2">
+          <div class="alert alert-success py-2 small mb-3">Data lembaga terekam. Silakan lakukan pembayaran via QRIS:</div>
+          <img src="https://i.imgur.com/hkFdYS4.jpeg" alt="QRIS" class="img-fluid border rounded-3 mb-3 shadow-sm" style="max-height: 180px;">
+          <p class="small text-muted mb-2">Setelah transfer, konfirmasi via WhatsApp untuk mendapatkan <b>Kode Akses Unik</b>:</p>
+          <a id="linkWa" href="#" target="_blank" class="btn btn-success w-100 py-2 rounded-pill fw-bold mb-3 shadow-sm">
+            <i class="fa-brands fa-whatsapp"></i> Konfirmasi ke CS (085771103619)
+          </a>
+          <button class="btn btn-link btn-sm text-muted" onclick="kembaliKeForm()">← Ubah Data Lembaga</button>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- KODE AKSES -->
+        <div>
+          <label class="form-label small fw-bold text-dark"><i class="fa-solid fa-shield-check text-success me-1"></i> SUDAH MEMILIKI KODE AKSES UNIK?</label>
+          <div class="input-group">
+            <input type="password" id="inputKodeAkses" class="form-control form-control-equal" placeholder="Masukkan kode akses khusus lembaga...">
+            <button class="btn btn-dark px-4 fw-bold" onclick="validasiKodeAkses()">AKTIFKAN</button>
+          </div>
+          <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Lisensi berlaku otomatis selama 1 tahun dan terikat pada NPSN lembaga.</small>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WIDGET LIVE TICKER -->
+    <div class="pro-card mb-4">
+      <div class="pro-card-header bg-secondary py-2" style="font-size: 0.9rem;">
+        <span><span class="spinner-grow spinner-grow-sm text-warning me-2" role="status"></span> Aktivasi Lisensi Terbaru (Real-Time)</span>
+        <span class="badge bg-success" style="font-size: 0.75rem;">+1.420 Sekolah Aktif</span>
+      </div>
+      <div class="p-3">
+        <div class="ticker-container">
+          <div class="ticker-text">
+            <i class="fa-solid fa-circle-check text-success me-1"></i> PKBM Bangsa Jaya (NPSN: P998124) memperpanjang lisensi 1 tahun &bull; 
+            <i class="fa-solid fa-circle-check text-success me-1"></i> SKB Bina Mandiri (NPSN: 6998123) sukses mengunduh backup database &bull; 
+            <i class="fa-solid fa-circle-check text-success me-1"></i> SMPS Tunas Bangsa (NPSN: 2029981) mengaktifkan Rombel 50 Siswa &bull; 
+            <i class="fa-solid fa-circle-check text-success me-1"></i> PKBM Cahaya Ilmu (NPSN: P397723) berhasil melakukan cetak presisi A4 &bull; 
+            <i class="fa-solid fa-circle-check text-success me-1"></i> SMAS Garuda Bangsa (NPSN: 4237723) berhasil melakukan cetak presisi A4
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION TIM PENGEMBANG (SMARTGEN CORE TEAM) -->
+    <div class="pro-card mb-4">
+      <div class="pro-card-header bg-dark text-white py-3">
+        <i class="fa-solid fa-users-gear text-warning"></i> Tim Pengembang & Arsitek Sistem (SmartGen Core Team)
+      </div>
+      <div>
+        <!-- Anggota 1 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary text-white p-2 rounded-3"><i class="fa-solid fa-laptop-code fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Faisal Farid, CEH (Aiden Vance)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Lead System Architect & Core Developer</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-primary border px-2 py-1" style="font-size: 0.75rem;">System & Interface</span>
+        </div>
+
+        <!-- Anggota 2 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-info text-white p-2 rounded-3"><i class="fa-solid fa-book-bookmark fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Dea Ananda Puspitasari, M.Kom. (Valerie Vantasia)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Curriculum Director & Academic Quality Lead</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-info border px-2 py-1" style="font-size: 0.75rem;">Curriculum & Academic</span>
+        </div>
+
+        <!-- Anggota 3 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-warning text-dark p-2 rounded-3"><i class="fa-solid fa-chess-knight fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Natasya Sari Anita, M.T. (Elysia Morningstar)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Strategic Partnership & Monetization Officer</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-warning border px-2 py-1" style="font-size: 0.75rem;">Strategy & Monetization</span>
+        </div>
+
+        <!-- Anggota 4 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary text-white p-2 rounded-3"><i class="fa-solid fa-server fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Ahmad Zaky, S.Kom., M.T. (Dmitri Kaelen)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Database Security & Cloud Infrastructure Specialist</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-primary border px-2 py-1" style="font-size: 0.75rem;">Database & Security</span>
+        </div>
+
+        <!-- Anggota 5 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-success text-white p-2 rounded-3"><i class="fa-solid fa-gamepad fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Siti Rahmawati, M.Pd. (Zephyrine Ray)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Gamification Logic & Pedagogical Engineer</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-success border px-2 py-1" style="font-size: 0.75rem;">Gamification & Pedagogy</span>
+        </div>
+
+        <!-- Anggota 6 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-secondary text-white p-2 rounded-3"><i class="fa-solid fa-gauge-high fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Rizky Pratama, M.Cs. (Jaxson Thorne)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Performance Optimization & Global Load Tester</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-secondary border px-2 py-1" style="font-size: 0.75rem;">Performance Optimization</span>
+        </div>
+
+        <!-- Anggota 7 -->
+        <div class="team-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-danger text-white p-2 rounded-3"><i class="fa-solid fa-bullhorn fs-5"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Dewi Lestari, S.I.Kom., M.I.Kom. (Cassia Vance)</h6>
+              <span class="text-muted" style="font-size: 0.75rem;">Digital Publication & Creative PR Director</span>
+            </div>
+          </div>
+          <span class="badge bg-light text-danger border px-2 py-1" style="font-size: 0.75rem;">Publication & PR</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KONTEN UTAMA APLIKASI (SETELAH AKTIF) -->
+  <div id="screenApp" class="app-main-content">
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm py-3 mb-4">
+      <div class="container">
+        <span class="fw-bold text-dark d-flex align-items-center gap-2">
+          <i class="fa-solid fa-school text-primary"></i> 
+          <span id="infoLembagaAktif">Lembaga Terverifikasi</span>
+        </span>
+        <div class="d-flex align-items-center gap-3">
+          <span id="infoMasaAktif" class="badge bg-info text-dark px-3 py-2 small">Masa Aktif: Memeriksa...</span>
+          <button class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="lockAplikasi()">
+            <i class="fa-solid fa-lock me-1"></i> Kunci Sesi
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container pb-5">
+      <div class="p-4 p-md-5 mb-4 text-white rounded-4 shadow-sm" style="background: linear-gradient(135deg, #0b192c 0%, #1e3e62 100%);">
+        <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold mb-2 small">DASHBOARD UTAMA PENGELOLAAN</span>
+        <h2 class="fw-bold mb-2">SmartGen Academy Learning — Buku Induk Rombel 50 Siswa</h2>
+        <p class="text-white-50 mb-0 small" style="max-width: 700px;">
+          Pilih modul di bawah untuk mengelola lembar isian, data register nomor urut 1 sampai 50, rekap akademik multi-tahun, hingga pusat pencetakan dokumen berstandar A4.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon"><i class="fa-solid fa-id-badge"></i></div>
+            <h6 class="fw-bold text-dark mb-1">1. Cover & Daftar Isi</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Sampul resmi & indeks halaman bab.</p>
+            <a href="cover.html" class="btn btn-outline-primary btn-sm rounded-pill fw-bold w-100 py-1" style="font-size: 0.75rem;">Buka Modul</a>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon" style="color: #10b981; background: #ecfdf5;"><i class="fa-solid fa-users-rectangle"></i></div>
+            <h6 class="fw-bold text-dark mb-1">2. Register Siswa (50)</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Tabel master nomor urut rombel.</p>
+            <a href="register-siswa.html" class="btn btn-outline-success btn-sm rounded-pill fw-bold w-100 py-1" style="font-size: 0.75rem;">Buka Modul</a>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon" style="color: #d97706; background: #fef3c7;"><i class="fa-solid fa-book-open"></i></div>
+            <h6 class="fw-bold text-dark mb-1">3. Data Rinci & Cetak</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Format 2 halaman per siswa & foto.</p>
+            <a href="isi-bukuinduk.html" class="btn btn-outline-warning text-dark btn-sm rounded-pill fw-bold w-100 py-1" style="font-size: 0.75rem;">Buka Modul</a>
+          </div>
+        </div>
+
+        <!-- MODUL REKAP NILAI 15 MAPEL (IMPORT-NILAI.HTML) -->
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon" style="color: #0ea5e9; background: #e0f2fe;"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h6 class="fw-bold text-dark mb-1">4. Akademik & Capaian</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Matriks 15 Mapel & Paste Vertikal Excel.</p>
+            <a href="import-nilai.html" class="btn btn-outline-info btn-sm rounded-pill fw-bold w-100 py-1" style="font-size: 0.75rem;">Buka Modul</a>
+          </div>
+        </div>
+
+        <!-- MODUL RAPORT SEMESTER (RAPORT-SEMESTER.HTML) -->
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon" style="color: #7c3aed; background: #f3e8ff;"><i class="fa-solid fa-file-lines"></i></div>
+            <h6 class="fw-bold text-dark mb-1">5. Lembar Raport Semester</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Cetak raport adaptif Kurikulum Merdeka & K13.</p>
+            <a href="raport-semester.html" class="btn btn-outline-secondary btn-sm rounded-pill fw-bold w-100 py-1" style="font-size: 0.75rem;">Buka Modul</a>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon" style="color: #ef4444; background: #fee2e2;"><i class="fa-solid fa-download"></i></div>
+            <h6 class="fw-bold text-dark mb-1">6. Backup Database</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Amankan data ke format JSON.</p>
+            <button class="btn btn-outline-danger btn-sm rounded-pill fw-bold w-100 py-1" style="font-size: 0.75rem;" onclick="backupSemuaData()">Unduh Backup</button>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <div class="menu-item-card">
+            <div class="menu-icon" style="color: #64748b; background: #f1f5f9;"><i class="fa-solid fa-upload"></i></div>
+            <h6 class="fw-bold text-dark mb-1">7. Pemulihan (Restore)</h6>
+            <p class="text-muted small mb-3" style="font-size: 0.75rem;">Muat data dari file cadangan.</p>
+            <label class="btn btn-outline-secondary btn-sm rounded-pill fw-bold w-100 py-1 mb-0" style="font-size: 0.75rem; cursor: pointer;">
+              Unggah File <input type="file" id="importFile" accept=".json" onchange="restoreData(event)" style="display: none;">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER RESMI -->
+  <footer class="bg-white border-top py-4 text-center text-muted small">
+    <div class="container">
+      <p class="mb-1 fw-bold text-dark" style="font-size: 0.85rem;">SmartGen Academy Learning — Edisi Komersial Rombel 50 Siswa</p>
+      <p class="mb-0 text-muted" style="font-size: 0.75rem;">&copy; 2026 SmartGen Academy Learning — Ganosec19Team-PuskemSmartGenTeam-kemdik</p>
+    </div>
+  </footer>
+
+  <!-- ================================================================= -->
+  <!-- AREA PENGATURAN KODE AKSES & KEAMANAN (MUDAH DILIHAT DAN DIEDIT) -->
+  <!-- ================================================================= -->
+  <script>
+    // Di sinilah daftar NPSN dan Kode Akses sekolah pembeli disimpan.
+    // Jika ada sekolah yang beli, kamu tinggal tambahkan di dalam kurung kurawal ini:
+    const databaseLisensi = {
+      "P9998715": "Smartgen123_210926",
+      "npsn_ujicoba": "testkode", // NPSN & Kode Uji Coba
+      // "NPSN_BARU": "KODE_AKSES_BARU",   <-- Tambahkan sekolah baru di sini dengan mudah!
+    };
+  </script>
+
+  <!-- SCRIPT UTAMA SISTEM APLIKASI (TETAP AMAN & TERPROTEKSI) -->
+  <script>
+    window.onload = function() {
+      let statusAktivasi = sessionStorage.getItem('buku_induk_aktif');
+      let tglExpired = localStorage.getItem('buku_induk_expired');
+      let infoLembaga = localStorage.getItem('buku_induk_lembaga_aktif');
+
+      if (statusAktivasi === "true" && tglExpired) {
+        let waktuSekarang = new Date().getTime();
+        
+        if (waktuSekarang > parseInt(tglExpired)) {
+          sessionStorage.removeItem('buku_induk_aktif');
+          alert('PERINGATAN: Masa aktif lisensi 1 tahun lembaga Anda telah BERAKHIR.\n\nAplikasi otomatis dikunci. Silakan lakukan pembayaran perpanjangan (renewal) sebesar Rp180.000 kepada admin untuk mendapatkan kode akses baru.');
+          location.reload();
+          return;
+        }
+
+        let sisaHari = Math.ceil((parseInt(tglExpired) - waktuSekarang) / (1000 * 60 * 60 * 24));
+
+        if (sisaHari <= 7 && sisaHari > 0) {
+          alert(`PENGINGAT PERPANJANGAN LISENSI:\nMasa aktif aplikasi Anda akan segera kedaluwarsa dalam ${sisaHari} hari ke depan.\n\nSegera lakukan perpanjangan langganan (Rp180.000) agar data dan akses lembaga tetap aman tanpa gangguan.`);
+        }
+
+        document.getElementById('screenLock').style.display = 'none';
+        document.getElementById('screenApp').style.display = 'block';
+        if(infoLembaga) document.getElementById('infoLembagaAktif').innerText = infoLembaga;
+        document.getElementById('infoMasaAktif').innerText = `Masa Aktif: ${sisaHari} Hari Lagi`;
+      }
+    };
+
+    function prosesBeliLisensi() {
+      let npsn = document.getElementById('inputNpsn').value.trim();
+      let lembaga = document.getElementById('inputNamaLembaga').value.trim();
+      if(npsn === "" || lembaga === "") {
+        alert("Mohon isi NPSN dan Nama Lembaga terlebih dahulu!");
+        return;
+      }
+      
+      localStorage.setItem('buku_induk_pending_npsn', npsn);
+      localStorage.setItem('buku_induk_pending_lembaga', lembaga);
+
+      let pesan = `Halo Admin, saya ingin memperpanjang/memesan Lisensi Aplikasi Buku Induk Digital (Promo 1 Tahun Rp180.000).%0A%0A*NPSN:* ${encodeURIComponent(npsn)}%0A*Nama Lembaga:* ${encodeURIComponent(lembaga)}%0A*Nilai Promo:* Rp180.000 (Langganan 1 Tahun)%0A%0ASaya akan segera melakukan transfer via QRIS. Mohon berikan Kode Akses baru untuk NPSN kami.`;
+      document.getElementById('linkWa').href = `https://wa.me/6285771103619?text=${pesan}`;
+
+      document.getElementById('stepForm').style.display = 'none';
+      document.getElementById('stepQris').style.display = 'block';
+    }
+
+    function kembaliKeForm() {
+      document.getElementById('stepQris').style.display = 'none';
+      document.getElementById('stepForm').style.display = 'block';
+    }
+
+    function validasiKodeAkses() {
+      let inputNpsn = document.getElementById('inputNpsn').value.trim();
+      let inputLembaga = document.getElementById('inputNamaLembaga').value.trim();
+      let kodeInput = document.getElementById('inputKodeAkses').value.trim();
+
+      if(inputNpsn === "" || inputLembaga === "") {
+        alert("Mohon masukkan NPSN dan Nama Lembaga terlebih dahulu di atas!");
+        return;
+      }
+
+      if(kodeInput === "") {
+        alert("Mohon masukkan Kode Akses lembaga terlebih dahulu!");
+        return;
+      }
+
+      // Mengambil data lisensi dengan aman di semua jenis browser dan perangkat (HP / Laptop)
+      let dbLisensi = window.databaseLisensi || databaseLisensi || {};
+
+      if (dbLisensi[inputNpsn] && dbLisensi[inputNpsn] === kodeInput) {
+        let satuTahunMilidetik = 365 * 24 * 60 * 60 * 1000;
+        let waktuExpired = new Date().getTime() + satuTahunMilidetik;
+
+        sessionStorage.setItem('buku_induk_aktif', "true");
+        localStorage.setItem('buku_induk_expired', waktuExpired);
+        localStorage.setItem('buku_induk_lembaga_aktif', inputLembaga + " (NPSN: " + inputNpsn + ")");
+
+        alert('Aktivasi / Perpanjangan Lisensi 1 Tahun Berhasil! Selamat menggunakan Buku Induk Digital.');
+        location.reload();
+      } else {
+        alert('NPSN atau Kode Akses salah! Pastikan kodenya sudah benar sesuai yang diberikan admin.');
+      }
+    }
+
+    function lockAplikasi() {
+      sessionStorage.removeItem('buku_induk_aktif');
+      location.reload();
+    }
+
+    function backupSemuaData() {
+      let allData = {
+        sekolah: localStorage.getItem('buku_induk_sekolah_config'),
+        siswa: localStorage.getItem('buku_induk_arsip_db'),
+        headerMapel: localStorage.getItem('buku_induk_header_mapel')
+      };
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2));
+      let dl = document.createElement('a');
+      dl.setAttribute("href", dataStr);
+      dl.setAttribute("download", "backup_lengkap_buku_induk.json");
+      document.body.appendChild(dl);
+      dl.click();
+      dl.remove();
+    }
+
+    function restoreData(event) {
+      let file = event.target.files[0];
+      if (!file) return;
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          let parsed = JSON.parse(e.target.result);
+          if(parsed.siswa) localStorage.setItem('buku_induk_arsip_db', parsed.siswa);
+          if(parsed.sekolah) localStorage.setItem('buku_induk_sekolah_config', parsed.sekolah);
+          if(parsed.headerMapel) localStorage.setItem('buku_induk_header_mapel', parsed.headerMapel);
+          alert('Data berhasil dipulihkan!');
+          location.reload();
+        } catch(err) { alert('File cadangan tidak valid.'); }
+      };
+      reader.readAsText(file);
+    }
+  </script>
+</body>
+</html>
