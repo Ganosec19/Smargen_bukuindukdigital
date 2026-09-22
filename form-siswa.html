@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Rinci Buku Induk Digital (Lengkap A s.d. F + Upload Foto & Tahun Dinamis)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .card { border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .section-header { background: #1e3e62; color: white; padding: 10px 15px; font-weight: bold; border-radius: 6px; margin-bottom: 15px; font-size: 0.95rem; }
+    .preview-foto { width: 90px; height: 120px; object-fit: cover; border: 1px solid #ccc; background: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR ATAS -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="register-siswa.html"><i class="fa-solid fa-arrow-left me-2"></i> Kembali ke Register Siswa</a>
+      <span class="text-white-50 small">Formulir Rinci & Unggah Foto Peserta Didik</span>
+    </div>
+  </nav>
+
+  <div class="container my-4" style="max-width: 950px;">
+    
+    <div class="card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary mb-0"><i class="fa-solid fa-user-pen me-2"></i> Edit Data Buku Induk (A s.d. F) & Foto</h4>
+        <div id="infoSlot" class="badge bg-secondary fs-6">No. Urut: -</div>
+      </div>
+      <hr>
+
+      <!-- FORMULIR UTAMA -->
+      <form id="formSiswa" onsubmit="simpanDataSiswa(event)">
+        
+        <!-- A. KETERANGAN SISWA & KURIKULUM -->
+        <div class="section-header"><i class="fa-solid fa-id-card me-2"></i> A. Keterangan Siswa & Pilihan Kurikulum</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Nama Lengkap Siswa</label>
+            <input type="text" id="nama" class="form-control" required placeholder="Nama lengkap siswa...">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Nama Panggilan</label>
+            <input type="text" id="panggilan" class="form-control" placeholder="Nama panggilan...">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Nomor Induk Siswa (NIS)</label>
+            <input type="text" id="nis" class="form-control" placeholder="Nomor induk...">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Nomor Induk Siswa Nasional (NISN)</label>
+            <input type="text" id="nisn" class="form-control" placeholder="NISN...">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Nomor NIK (Sesuai KTP/KK)</label>
+            <input type="text" id="nik" class="form-control" placeholder="Nomor NIK...">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Jenis Kelamin</label>
+            <select id="jk" class="form-select">
+              <option value="Laki-laki">Laki-laki</option>
+              <option value="Perempuan">Perempuan</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Tempat & Tanggal Lahir</label>
+            <div class="input-group">
+              <input type="text" id="tempatLahir" class="form-control" placeholder="Tempat">
+              <input type="text" id="tglLahir" class="form-control" placeholder="Tanggal">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small text-danger">Pilihan Kurikulum Sekolah</label>
+            <select id="kurikulum" class="form-select fw-bold border-danger text-primary">
+              <option value="merdeka">Kurikulum Merdeka</option>
+              <option value="k13">Kurikulum 2013 (K13)</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Agama</label>
+            <input type="text" id="agama" class="form-control" value="Islam">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Kewarganegaraan</label>
+            <input type="text" id="kewarganegaraan" class="form-control" value="WNI">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold small">Jumlah Saudara Kandung</label>
+            <input type="text" id="jmlSaudara" class="form-control" value="2">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Bahasa Sehari-hari di Keluarga</label>
+            <input type="text" id="bahasa" class="form-control" value="Bahasa Indonesia">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Bertempat Tinggal Pada</label>
+            <input type="text" id="tinggal" class="form-control" value="Bersama Orang Tua">
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-bold small">Alamat Lengkap & No. Telepon</label>
+            <textarea id="alamat" class="form-control" rows="2" placeholder="Alamat lengkap..."></textarea>
+          </div>
+        </div>
+
+        <!-- UPLOAD FOTO SISWA -->
+        <div class="section-header bg-secondary"><i class="fa-solid fa-camera me-2"></i> Pas Foto Siswa (3x4 untuk Halaman 2)</div>
+        <div class="row g-3 align-items-center mb-4 bg-light p-3 rounded border">
+          <div class="col-md-3 text-center">
+            <img id="imgPreview" src="" class="preview-foto mb-2 shadow-sm" alt="Preview Foto">
+            <div class="text-muted small">Pratinjau Foto</div>
+          </div>
+          <div class="col-md-9">
+            <label class="form-label fw-bold small">Unggah Berkas Foto (Format JPG/PNG, Rasio 3:4)</label>
+            <input type="file" id="inputFoto" class="form-control" accept="image/*" onchange="previewFile()">
+            <div class="form-text small">Jika tidak diunggah, kotak foto pada dokumen cetak akan dibiarkan kosong untuk keperluan tempel foto manual.</div>
+          </div>
+        </div>
+
+        <!-- B. KETERANGAN ORANG TUA KANDUNG / WALI -->
+        <div class="section-header"><i class="fa-solid fa-users me-2"></i> B. Keterangan Orang Tua Kandung / Wali Siswa</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Nama Ayah Kandung</label>
+            <input type="text" id="ayah" class="form-control mb-1" placeholder="Nama ayah...">
+            <label class="form-label fw-bold small mt-1">NIK Ayah</label>
+            <input type="text" id="nikAyah" class="form-control mb-1" placeholder="NIK ayah...">
+            <label class="form-label fw-bold small mt-1">Pendidikan Terakhir Ayah</label>
+            <input type="text" id="pekAyah" class="form-control mb-1" placeholder="Pendidikan ayah...">
+            <label class="form-label fw-bold small mt-1">Pekerjaan Ayah</label>
+            <input type="text" id="pekAyahKerja" class="form-control" placeholder="Pekerjaan ayah...">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Nama Ibu Kandung</label>
+            <input type="text" id="ibu" class="form-control mb-1" placeholder="Nama ibu...">
+            <label class="form-label fw-bold small mt-1">NIK Ibu</label>
+            <input type="text" id="nikIbu" class="form-control mb-1" placeholder="NIK ibu...">
+            <label class="form-label fw-bold small mt-1">Pendidikan Terakhir Ibu</label>
+            <input type="text" id="pekIbu" class="form-control mb-1" placeholder="Pendidikan ibu...">
+            <label class="form-label fw-bold small mt-1">Pekerjaan Ibu</label>
+            <input type="text" id="pekIbuKerja" class="form-control" placeholder="Pekerjaan ibu...">
+          </div>
+
+          <div class="col-12 mt-3">
+            <div class="p-3 bg-white border rounded">
+              <label class="form-label fw-bold small text-primary mb-2"><i class="fa-solid fa-user-shield me-1"></i> d. Wali Siswa (Jika mempunyai / Tidak tinggal dengan orang tua)</label>
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <input type="text" id="namaWali" class="form-control form-control-sm" placeholder="Nama Wali">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" id="hubunganWali" class="form-control form-control-sm" placeholder="Hubungan Keluarga">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C. PERKEMBANGAN SISWA: SEKOLAH SEBELUMNYA & MASUK -->
+        <div class="section-header"><i class="fa-solid fa-school me-2"></i> C. Perkembangan Siswa: Sekolah Sebelumnya & Masuk</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">a) Nama Sekolah Asal</label>
+            <input type="text" id="sekolahAsal" class="form-control" placeholder="Nama sekolah/lembaga sebelumnya...">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold small">b) Dari Kelas</label>
+            <input type="text" id="dariKelas" class="form-control" value="6">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold small">c) Keluaran Tahun</label>
+            <input type="text" id="tahunKeluarAsal" class="form-control" value="2021">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">d) No. Ijazah / STTB Asal</label>
+            <input type="text" id="noIjazahAsal" class="form-control" placeholder="Nomor ijazah sekolah asal...">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold small">e) Diterima Tanggal</label>
+            <input type="text" id="tglMasuk" class="form-control" placeholder="Tanggal masuk...">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold small">f) Di Kelas Ini</label>
+            <input type="text" id="diKelasIni" class="form-control" value="7">
+          </div>
+        </div>
+
+        <!-- D. KEADAAN JASMANI PER TAHUN (DENGAN TAHUN DINAMIS) -->
+        <div class="section-header"><i class="fa-solid fa-heart-pulse me-2"></i> D. Keadaan Jasmani Per Tahun</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label small fw-bold">Judul / Tahun 1</label>
+            <input type="text" id="labelTh1" class="form-control form-control-sm mb-1 fw-bold text-primary" value="2023">
+            <input type="text" id="bb1" class="form-control mb-1" placeholder="Berat badan (kg)">
+            <input type="text" id="tb1" class="form-control mb-1" placeholder="Tinggi badan (cm)">
+            <input type="text" id="penyakit1" class="form-control mb-1" placeholder="Penyakit">
+            <input type="text" id="kelainan1" class="form-control" placeholder="Kelainan jasmani">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small fw-bold">Judul / Tahun 2</label>
+            <input type="text" id="labelTh2" class="form-control form-control-sm mb-1 fw-bold text-primary" value="2024">
+            <input type="text" id="bb2" class="form-control mb-1" placeholder="Berat badan (kg)">
+            <input type="text" id="tb2" class="form-control mb-1" placeholder="Tinggi badan (cm)">
+            <input type="text" id="penyakit2" class="form-control mb-1" placeholder="Penyakit">
+            <input type="text" id="kelainan2" class="form-control" placeholder="Kelainan jasmani">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small fw-bold">Judul / Tahun 3</label>
+            <input type="text" id="labelTh3" class="form-control form-control-sm mb-1 fw-bold text-primary" value="2025">
+            <input type="text" id="bb3" class="form-control mb-1" placeholder="Berat badan (kg)">
+            <input type="text" id="tb3" class="form-control mb-1" placeholder="Tinggi badan (cm)">
+            <input type="text" id="penyakit3" class="form-control mb-1" placeholder="Penyakit">
+            <input type="text" id="kelainan3" class="form-control" placeholder="Kelainan jasmani">
+          </div>
+        </div>
+
+        <!-- E. BEA SISWA -->
+        <div class="section-header"><i class="fa-solid fa-hand-holding-dollar me-2"></i> E. Bea Siswa</div>
+        <div class="row g-3 mb-4">
+          <div class="col-12">
+            <label class="form-label fw-bold small">Jenis Bea Siswa</label>
+            <input type="text" id="beasiswa" class="form-control" value="-">
+          </div>
+        </div>
+
+        <!-- F. LAIN-LAIN / MENINGGALKAN SEKOLAH -->
+        <div class="section-header"><i class="fa-solid fa-graduation-cap me-2"></i> F. Lain-Lain & Meninggalkan Sekolah</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">1. Tamat Belajar (Tahun & No. Ijazah)</label>
+            <input type="text" id="tamatTahun" class="form-control mb-1" placeholder="Tahun Tamat">
+            <input type="text" id="tamatIjazah" class="form-control" placeholder="Nomor Ijazah">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small">Melanjutkan Sekolah Ke</label>
+            <input type="text" id="lanjutSekolah" class="form-control" placeholder="Nama sekolah lanjutan...">
+          </div>
+          <div class="col-12 mt-2">
+            <label class="form-label fw-bold small">2. Pindah Sekolah</label>
+            <input type="text" id="pindahKeterangan" class="form-control" placeholder="Keterangan pindah sekolah...">
+          </div>
+          <div class="col-12 mt-2">
+            <label class="form-label fw-bold small">3. Keluar Sekolah</label>
+            <input type="text" id="keluarKeterangan" class="form-control" placeholder="Keterangan keluar sekolah...">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <a href="register-siswa.html" class="btn btn-secondary px-4">Batal</a>
+          <button type="submit" class="btn btn-success px-5 fw-bold"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Data Lengkap</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    let dbSiswa = JSON.parse(localStorage.getItem('buku_induk_arsip_db')) || [];
+    const urlParams = new URLSearchParams(window.location.search);
+    let siswaId = urlParams.get('id');
+    let base64FotoData = "";
+
+    window.onload = function() {
+      if(!siswaId) {
+        alert('ID Siswa tidak valid!');
+        window.location.href = 'register-siswa.html';
+        return;
+      }
+
+      let siswa = dbSiswa.find(s => String(s.id) === String(siswaId));
+      if(siswa) {
+        document.getElementById('infoSlot').innerText = `No. Urut Rombel: ${siswa.noUrut}`;
+        document.getElementById('nama').value = siswa.nama || '';
+        document.getElementById('panggilan').value = siswa.panggilan || '';
+        document.getElementById('nis').value = siswa.nis || '';
+        document.getElementById('nisn').value = siswa.nisn || '';
+        document.getElementById('nik').value = siswa.nik || '';
+        document.getElementById('jk').value = siswa.jk || 'Laki-laki';
+        document.getElementById('tempatLahir').value = siswa.tempatLahir || '';
+        document.getElementById('tglLahir').value = siswa.tglLahir || '';
+        document.getElementById('agama').value = siswa.agama || 'Islam';
+        document.getElementById('kewarganegaraan').value = siswa.kewarganegaraan || 'WNI';
+        document.getElementById('kurikulum').value = siswa.kurikulum || 'merdeka';
+        document.getElementById('jmlSaudara').value = siswa.jmlSaudara || '2';
+        document.getElementById('bahasa').value = siswa.bahasa || 'Bahasa Indonesia';
+        document.getElementById('tinggal').value = siswa.tinggal || 'Bersama Orang Tua';
+        document.getElementById('alamat').value = siswa.alamat || '';
+        
+        document.getElementById('ayah').value = siswa.ayah || '';
+        document.getElementById('nikAyah').value = siswa.nikAyah || '';
+        document.getElementById('pekAyah').value = siswa.pekAyah || '';
+        document.getElementById('pekAyahKerja').value = siswa.pekAyahKerja || '';
+        
+        document.getElementById('ibu').value = siswa.ibu || '';
+        document.getElementById('nikIbu').value = siswa.nikIbu || '';
+        document.getElementById('pekIbu').value = siswa.pekIbu || '';
+        document.getElementById('pekIbuKerja').value = siswa.pekIbuKerja || '';
+
+        document.getElementById('namaWali').value = siswa.namaWali || '';
+        document.getElementById('hubunganWali').value = siswa.hubunganWali || '';
+
+        document.getElementById('sekolahAsal').value = siswa.sekolahAsal || '';
+        document.getElementById('dariKelas').value = siswa.dariKelas || '6';
+        document.getElementById('tahunKeluarAsal').value = siswa.tahunKeluarAsal || '2021';
+        document.getElementById('noIjazahAsal').value = siswa.noIjazahAsal || '';
+        document.getElementById('tglMasuk').value = siswa.tglMasuk || '';
+        document.getElementById('diKelasIni').value = siswa.diKelasIni || '7';
+
+        document.getElementById('labelTh1').value = siswa.labelTh1 || '2023';
+        document.getElementById('bb1').value = siswa.bb1 || '';
+        document.getElementById('tb1').value = siswa.tb1 || '';
+        document.getElementById('penyakit1').value = siswa.penyakit1 || '';
+        document.getElementById('kelainan1').value = siswa.kelainan1 || '';
+
+        document.getElementById('labelTh2').value = siswa.labelTh2 || '2024';
+        document.getElementById('bb2').value = siswa.bb2 || '';
+        document.getElementById('tb2').value = siswa.tb2 || '';
+        document.getElementById('penyakit2').value = siswa.penyakit2 || '';
+        document.getElementById('kelainan2').value = siswa.kelainan2 || '';
+
+        document.getElementById('labelTh3').value = siswa.labelTh3 || '2025';
+        document.getElementById('bb3').value = siswa.bb3 || '';
+        document.getElementById('tb3').value = siswa.tb3 || '';
+        document.getElementById('penyakit3').value = siswa.penyakit3 || '';
+        document.getElementById('kelainan3').value = siswa.kelainan3 || '';
+
+        document.getElementById('beasiswa').value = siswa.beasiswa || '-';
+
+        document.getElementById('tamatTahun').value = siswa.tamatTahun || '';
+        document.getElementById('tamatIjazah').value = siswa.tamatIjazah || '';
+        document.getElementById('lanjutSekolah').value = siswa.lanjutSekolah || '';
+        document.getElementById('pindahKeterangan').value = siswa.pindahKeterangan || '';
+        document.getElementById('keluarKeterangan').value = siswa.keluarKeterangan || '';
+
+        if(siswa.foto) {
+          base64FotoData = siswa.foto;
+          document.getElementById('imgPreview').src = siswa.foto;
+        } else {
+          document.getElementById('imgPreview').src = 'https://via.placeholder.com/90x120?text=3x4';
+        }
+      }
+    };
+
+    function previewFile() {
+      const preview = document.getElementById('imgPreview');
+      const file = document.getElementById('inputFoto').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function () {
+        base64FotoData = reader.result;
+        preview.src = base64FotoData;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = 'https://via.placeholder.com/90x120?text=3x4';
+        base64FotoData = "";
+      }
+    }
+
+    function simpanDataSiswa(e) {
+      e.preventDefault();
+      let index = dbSiswa.findIndex(s => String(s.id) === String(siswaId));
+      if(index !== -1) {
+        dbSiswa[index].nama = document.getElementById('nama').value;
+        dbSiswa[index].panggilan = document.getElementById('panggilan').value;
+        dbSiswa[index].nis = document.getElementById('nis').value;
+        dbSiswa[index].nisn = document.getElementById('nisn').value;
+        dbSiswa[index].nik = document.getElementById('nik').value;
+        dbSiswa[index].jk = document.getElementById('jk').value;
+        dbSiswa[index].tempatLahir = document.getElementById('tempatLahir').value;
+        dbSiswa[index].tglLahir = document.getElementById('tglLahir').value;
+        dbSiswa[index].agama = document.getElementById('agama').value;
+        dbSiswa[index].kewarganegaraan = document.getElementById('kewarganegaraan').value;
+        dbSiswa[index].kurikulum = document.getElementById('kurikulum').value;
+        dbSiswa[index].jmlSaudara = document.getElementById('jmlSaudara').value;
+        dbSiswa[index].bahasa = document.getElementById('bahasa').value;
+        dbSiswa[index].tinggal = document.getElementById('tinggal').value;
+        dbSiswa[index].alamat = document.getElementById('alamat').value;
+        
+        dbSiswa[index].ayah = document.getElementById('ayah').value;
+        dbSiswa[index].nikAyah = document.getElementById('nikAyah').value;
+        dbSiswa[index].pekAyah = document.getElementById('pekAyah').value;
+        dbSiswa[index].pekAyahKerja = document.getElementById('pekAyahKerja').value;
+        
+        dbSiswa[index].ibu = document.getElementById('ibu').value;
+        dbSiswa[index].nikIbu = document.getElementById('nikIbu').value;
+        dbSiswa[index].pekIbu = document.getElementById('pekIbu').value;
+        dbSiswa[index].pekIbuKerja = document.getElementById('pekIbuKerja').value;
+
+        dbSiswa[index].namaWali = document.getElementById('namaWali').value;
+        dbSiswa[index].hubunganWali = document.getElementById('hubunganWali').value;
+
+        dbSiswa[index].sekolahAsal = document.getElementById('sekolahAsal').value;
+        dbSiswa[index].dariKelas = document.getElementById('dariKelas').value;
+        dbSiswa[index].tahunKeluarAsal = document.getElementById('tahunKeluarAsal').value;
+        dbSiswa[index].noIjazahAsal = document.getElementById('noIjazahAsal').value;
+        dbSiswa[index].tglMasuk = document.getElementById('tglMasuk').value;
+        dbSiswa[index].diKelasIni = document.getElementById('diKelasIni').value;
+
+        dbSiswa[index].labelTh1 = document.getElementById('labelTh1').value;
+        dbSiswa[index].bb1 = document.getElementById('bb1').value;
+        dbSiswa[index].tb1 = document.getElementById('tb1').value;
+        dbSiswa[index].penyakit1 = document.getElementById('penyakit1').value;
+        dbSiswa[index].kelainan1 = document.getElementById('kelainan1').value;
+
+        dbSiswa[index].labelTh2 = document.getElementById('labelTh2').value;
+        dbSiswa[index].bb2 = document.getElementById('bb2').value;
+        dbSiswa[index].tb2 = document.getElementById('tb2').value;
+        dbSiswa[index].penyakit2 = document.getElementById('penyakit2').value;
+        dbSiswa[index].kelainan2 = document.getElementById('kelainan2').value;
+
+        dbSiswa[index].labelTh3 = document.getElementById('labelTh3').value;
+        dbSiswa[index].bb3 = document.getElementById('bb3').value;
+        dbSiswa[index].tb3 = document.getElementById('tb3').value;
+        dbSiswa[index].penyakit3 = document.getElementById('penyakit3').value;
+        dbSiswa[index].kelainan3 = document.getElementById('kelainan3').value;
+
+        dbSiswa[index].beasiswa = document.getElementById('beasiswa').value;
+
+        dbSiswa[index].tamatTahun = document.getElementById('tamatTahun').value;
+        dbSiswa[index].tamatIjazah = document.getElementById('tamatIjazah').value;
+        dbSiswa[index].lanjutSekolah = document.getElementById('lanjutSekolah').value;
+        dbSiswa[index].pindahKeterangan = document.getElementById('pindahKeterangan').value;
+        dbSiswa[index].keluarKeterangan = document.getElementById('keluarKeterangan').value;
+
+        if(base64FotoData) {
+          dbSiswa[index].foto = base64FotoData;
+        }
+
+        localStorage.setItem('buku_induk_arsip_db', JSON.stringify(dbSiswa));
+        alert('Data lengkap (A s.d. F), Tahun Jasmani & Foto berhasil disimpan!');
+        window.location.href = 'register-siswa.html';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buku Induk Peserta Didik Paket B Setara SMP — Full Rombel 50 Siswa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #f1f5f9; font-family: 'Times New Roman', Times, serif, Arial, sans-serif; color: #000; }
+    
+    /* Tombol Navigasi Layar (Hilang saat diprint) */
+    .no-print { background: #1e3e62; color: white; padding: 12px 0; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    
+    /* Lembar A4 Buku Induk (Padat Mengisi Penuh 1 Halaman A4) */
+    .sheet-a4 {
+      width: 210mm;
+      height: 297mm;
+      background: white;
+      margin: 0 auto 20px auto;
+      padding: 10mm 15mm;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      box-sizing: border-box;
+      position: relative;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* WATERMARK LOGO TUT WURI HANDAYANI DI TENGAH KERTAS */
+    .watermark-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120mm;
+      height: 120mm;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_TutWuriHandayani-Warna.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      opacity: 0.08; /* Terlihat samar-samar */
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Memastikan konten berada di atas watermark */
+    .sheet-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .buku-title { font-weight: bold; text-align: center; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 5px; letter-spacing: 0.5px; }
+    .buku-header-info { text-align: center; font-size: 0.85rem; margin-bottom: 12px; font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 6px; }
+    
+    .section-title { font-weight: bold; font-size: 0.85rem; text-transform: uppercase; margin-top: 10px; margin-bottom: 5px; text-decoration: underline; }
+    
+    /* Perataan Baris Data */
+    .row-data { font-size: 0.82rem; display: flex; margin-bottom: 5px; line-height: 1.65; align-items: flex-start; }
+    .col-no { width: 4%; flex-shrink: 0; }
+    .col-label { width: 34%; flex-shrink: 0; }
+    .col-titik { width: 3%; text-align: center; flex-shrink: 0; }
+    .col-val { width: 59%; font-weight: 500; word-break: break-word; overflow-wrap: break-word; }
+
+    table.table-jasmani { width: 100%; font-size: 0.8rem; border-collapse: collapse; border: 1px solid #000; margin-top: 6px; margin-bottom: 6px; }
+    table.table-jasmani td, table.table-jasmani th { border: 1px solid #000; padding: 5px 6px; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.85); }
+    table.table-jasmani th { background: #f8fafc; }
+
+    /* Kotak Foto 3x4 di Bawah Kolom F */
+    .photo-box-f {
+      width: 3cm;
+      height: 4cm;
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.65rem;
+      color: #555;
+      background: #fff;
+      overflow: hidden;
+    }
+    .photo-box-f img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Pengaturan Cetak Murni A4 */
+    @media print {
+      body { background: white; }
+      .no-print { display: none !important; }
+      .sheet-a4 { box-shadow: none; margin: 0; padding: 10mm 15mm; width: 100%; height: 297mm; page-break-after: always; }
+      .watermark-bg { opacity: 0.08 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KONTROL ATAS (TIDAK IKUT TERCETAK) -->
+  <div class="no-print">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <a href="register-siswa.html" class="btn btn-outline-light btn-sm fw-bold"><i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Register</a>
+        <span class="ms-3 small text-white-50">Modul Buku Induk Rombel 50 Siswa (Dengan Watermark Tut Wuri Handayani)</span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <select id="selectSiswa" class="form-select form-select-sm" onchange="muatDataSiswa(this.value)">
+          <!-- Opsi siswa dimuat otomatis -->
+        </select>
+        <button class="btn btn-warning btn-sm text-dark fw-bold px-3" onclick="window.print()">
+          <i class="fa-solid fa-print me-1"></i> Cetak Dokumen A4
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="containerBukuInduk">
+    <!-- Konten 50 siswa akan dirender otomatis di sini -->
+  </div>
+
+  <script>
+    let dbSiswa = JSON.parse(localStorage.getItem('buku_induk_arsip_db')) || [];
+
+    window.onload = function() {
+      let select = document.getElementById('selectSiswa');
+      if(dbSiswa.length === 0) {
+        select.innerHTML = `<option>Belum ada data siswa (Generate di Register)</option>`;
+        document.getElementById('containerBukuInduk').innerHTML = `<div class="text-center py-5"><h4>Belum ada data siswa. Silakan isi data siswa di menu Register terlebih dahulu.</h4></div>`;
+        return;
+      }
+
+      select.innerHTML = '<option value="all">-- Cetak / Tampilkan Semua (50 Siswa Rombel) --</option>';
+      dbSiswa.forEach((s) => {
+        let namaLabel = s.nama ? s.nama : 'Slot Kosong';
+        select.innerHTML += `<option value="${s.id}">No. ${s.noUrut} — ${namaLabel} (${s.nis || '-'})</option>`;
+      });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      let selectedId = urlParams.get('id');
+      if(selectedId) {
+        select.value = selectedId;
+        renderBukuInduk([dbSiswa.find(s => String(s.id) === String(selectedId)) || dbSiswa[0]]);
+      } else {
+        renderBukuInduk(dbSiswa);
+      }
+    };
+
+    function muatDataSiswa(val) {
+      if(val === "all") {
+        renderBukuInduk(dbSiswa);
+      } else {
+        let siswa = dbSiswa.find(s => String(s.id) === String(val));
+        if(siswa) renderBukuInduk([siswa]);
+      }
+    }
+
+    function renderBukuInduk(dataList) {
+      let container = document.getElementById('containerBukuInduk');
+      container.innerHTML = '';
+
+      dataList.forEach(s => {
+        let namaSiswa = s.nama || '-';
+        let nisSiswa = s.nis || '-';
+        let nisnSiswa = s.nisn || '-';
+        let nikSiswa = s.nik || '-';
+        let panggilanSiswa = s.panggilan || '-';
+        let jkSiswa = s.jk || '-';
+        let tglLahirSiswa = s.tglLahir || '-';
+        let tempatLahirSiswa = s.tempatLahir || '-';
+        let agamaSiswa = s.agama || 'Islam';
+        let wniSiswa = s.kewarganegaraan || 'WNI';
+        let jmlSaudaraSiswa = s.jmlSaudara || '2';
+        let bahasaSiswa = s.bahasa || 'Bahasa Indonesia';
+        let bbSiswa = s.bb1 || s.bb || '-';
+        let tbSiswa = s.tb1 || s.tb || '-';
+        let darahSiswa = s.darah || '-';
+        let penyakitSiswa = s.penyakit1 || s.penyakit || '-';
+        let alamatSiswa = s.alamat || '-';
+        let tinggalSiswa = s.tinggal || 'Bersama Orang Tua';
+
+        let ayahSiswa = s.ayah || '-';
+        let nikAyahSiswa = s.nikAyah || '-';
+        let ibuSiswa = s.ibu || '-';
+        let nikIbuSiswa = s.nikIbu || '-';
+        let pekAyahSiswa = s.pekAyah || '-';
+        let pekIbuSiswa = s.pekIbu || '-';
+        let pekAyahKerjaSiswa = s.pekAyahKerja || '-';
+        let pekIbuKerjaSiswa = s.pekIbuKerja || '-';
+
+        let namaWaliSiswa = s.namaWali || '-';
+        let hubunganWaliSiswa = s.hubunganWali || '-';
+
+        let sekolahAsalSiswa = s.sekolahAsal || '-';
+        let noIjazahAsalSiswa = s.noIjazahAsal || '-';
+        let tglMasukSiswa = s.tglMasuk || '-';
+        let beasiswaSiswa = s.beasiswa || '-';
+
+        let labelTh1 = s.labelTh1 || '2023';
+        let labelTh2 = s.labelTh2 || '2024';
+        let labelTh3 = s.labelTh3 || '2025';
+
+        let bb1 = s.bb1 || '-';
+        let bb2 = s.bb2 || '- kg';
+        let bb3 = s.bb3 || '- kg';
+        let tb1 = s.tb1 || '-';
+        let tb2 = s.tb2 || '- cm';
+        let tb3 = s.tb3 || '- cm';
+        let pen1 = s.penyakit1 || '-';
+        let pen2 = s.penyakit2 || '-';
+        let pen3 = s.penyakit3 || '-';
+        let kel1 = s.kelainan1 || '-';
+        let kel2 = s.kelainan2 || '-';
+        let kel3 = s.kelainan3 || '-';
+
+        let fotoHtml = s.foto ? `<img src="${s.foto}" alt="Foto Siswa">` : `Pas Foto<br>3 x 4`;
+
+        // ================= HALAMAN 1 =================
+        let page1 = `
+          <div class="sheet-a4">
+            <div class="watermark-bg"></div>
+            <div class="sheet-content">
+              <div>
+                <div class="buku-title">BUKU INDUK PESERTA DIDIK PAKET B SETARA SMP</div>
+                <div class="buku-header-info">
+                  Nomor Induk Siswa : <span class="text-dark">${nisSiswa}</span> &nbsp;&nbsp;|&nbsp;&nbsp; Nomor Induk Siswa Nasional : <span class="text-dark">${nisnSiswa}</span>
+                </div>
+
+                <div class="section-title">A. KETERANGAN SISWA</div>
+                
+                <div class="row-data"><div class="col-no">1.</div><div class="col-label">Nama Siswa</div><div class="col-titik">:</div><div class="col-val">a. Lengkap : <b>${namaSiswa}</b></div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Panggilan : ${panggilanSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">2.</div><div class="col-label">Nomor NIK sesuai KTP/KK</div><div class="col-titik">:</div><div class="col-val">${nikSiswa}</div></div>
+                <div class="row-data"><div class="col-no">3.</div><div class="col-label">Jenis Kelamin</div><div class="col-titik">:</div><div class="col-val">${jkSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">4.</div><div class="col-label">Kelahiran</div><div class="col-titik">:</div><div class="col-val">a. Tanggal : ${tglLahirSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Tempat : ${tempatLahirSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">5.</div><div class="col-label">Agama</div><div class="col-titik">:</div><div class="col-val">${agamaSiswa}</div></div>
+                <div class="row-data"><div class="col-no">6.</div><div class="col-label">Kewarganegaraan</div><div class="col-titik">:</div><div class="col-val">${wniSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">7.</div><div class="col-label">Jumlah Saudara</div><div class="col-titik">:</div><div class="col-val">a. Kandung : ${jmlSaudaraSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Tiri : -</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">c. Angkat : -</div></div>
+                
+                <div class="row-data"><div class="col-no">8.</div><div class="col-label">Bahasa sehari-hari di keluarga</div><div class="col-titik">:</div><div class="col-val">${bahasaSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">9.</div><div class="col-label">Keadaan Jasmani</div><div class="col-titik">:</div><div class="col-val">a. Berat Badan : ${bbSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Tinggi Badan : ${tbSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">c. Gol. Darah : ${darahSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">d. Penyakit yang pernah diderita : ${penyakitSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">10.</div><div class="col-label">Alamat dan No. Telepon</div><div class="col-titik">:</div><div class="col-val">${alamatSiswa}</div></div>
+                <div class="row-data"><div class="col-no">11.</div><div class="col-label">Bertempat tinggal pada</div><div class="col-titik">:</div><div class="col-val">${tinggalSiswa}</div></div>
+
+                <div class="section-title">B. KETERANGAN ORANG TUA KANDUNG / WALI SISWA</div>
+                <div class="row-data mb-1"><b>Orangtua Kandung</b></div>
+                
+                <div class="row-data"><div class="col-no">a.</div><div class="col-label">Nama</div><div class="col-titik">:</div><div class="col-val">a) Ayah : ${ayahSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">&nbsp;&nbsp;&nbsp;&nbsp;NIK Ayah : ${nikAyahSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b) Ibu : ${ibuSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">&nbsp;&nbsp;&nbsp;&nbsp;NIK Ibu : ${nikIbuSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">b.</div><div class="col-label">Pendidikan terakhir</div><div class="col-titik">:</div><div class="col-val">a) Ayah : ${pekAyahSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">&nbsp;&nbsp;&nbsp;&nbsp;b) Ibu : ${pekIbuSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">c.</div><div class="col-label">Pekerjaan</div><div class="col-titik">:</div><div class="col-val">a) Ayah : ${pekAyahKerjaSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">&nbsp;&nbsp;&nbsp;&nbsp;b) Ibu : ${pekIbuKerjaSiswa}</div></div>
+                
+                <div class="row-data"><div class="col-no">d.</div><div class="col-label">Wali Siswa (jika mempunyai)</div><div class="col-titik">:</div><div class="col-val">a) Nama : ${namaWaliSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b) Hubungan keluarga : ${hubunganWaliSiswa}</div></div>
+              </div>
+              <div class="text-end text-muted" style="font-size: 0.7rem;">Nomor Urut Rombel: ${s.noUrut} / 50 — Halaman 1</div>
+            </div>
+          </div>
+        `;
+
+        // ================= HALAMAN 2 =================
+        let page2 = `
+          <div class="sheet-a4">
+            <div class="watermark-bg"></div>
+            <div class="sheet-content">
+              <div>
+                <div class="section-title" style="margin-top: 0;">C. PERKEMBANGAN SISWA</div>
+                
+                <div class="row-data"><div class="col-no">1.</div><div class="col-label" style="width: 40%;">Masuk menjadi peserta didik</div><div class="col-titik">:</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;a) Nama Sekolah/Lembaga</div><div class="col-titik">:</div><div class="col-val">PKBM Ristek Nusantara Jaya</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;b) Alamat</div><div class="col-titik">:</div><div class="col-val">Jl. Kiasmawi rt.003/rw.005 Kalijaya, Cikarang Barat, Kab. Bekasi</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;c) NPSN Sekolah</div><div class="col-titik">:</div><div class="col-val">P9998715</div></div>
+                
+                <div class="row-data mt-2"><div class="col-no"></div><div class="col-label" style="width: 40%;">b. Sekolah / Lembaga Sebelumnya</div><div class="col-titik">:</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;a) Nama sekolah asal</div><div class="col-titik">:</div><div class="col-val">${sekolahAsalSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;b) Dari Kelas</div><div class="col-titik">:</div><div class="col-val">6</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;c) No Ijazah/STTB</div><div class="col-titik">:</div><div class="col-val">${noIjazahAsalSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;d) Keluaran Tahun</div><div class="col-titik">:</div><div class="col-val">2021</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;e) a) Diterima tanggal</div><div class="col-titik">:</div><div class="col-val">${tglMasukSiswa}</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b) Di kelas</div><div class="col-titik">:</div><div class="col-val">7</div></div>
+
+                <div class="row-data mt-2"><div class="col-no"></div><div class="col-label" style="width: 40%;">2. Keadaan Jasmani</div><div class="col-titik">:</div></div>
+                <table class="table-jasmani">
+                  <thead>
+                    <tr>
+                      <th>a</th>
+                      <th>Tahun</th>
+                      <th>${labelTh1}</th>
+                      <th>${labelTh2}</th>
+                      <th>${labelTh3}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>b</td>
+                      <td>Berat badan</td>
+                      <td>${bb1}</td>
+                      <td>${bb2}</td>
+                      <td>${bb3}</td>
+                    </tr>
+                    <tr>
+                      <td>c</td>
+                      <td>Tinggi badan</td>
+                      <td>${tb1}</td>
+                      <td>${tb2}</td>
+                      <td>${tb3}</td>
+                    </tr>
+                    <tr>
+                      <td>d</td>
+                      <td>Penyakit</td>
+                      <td>${pen1}</td>
+                      <td>${pen2}</td>
+                      <td>${pen3}</td>
+                    </tr>
+                    <tr>
+                      <td>e</td>
+                      <td>Kelainan jasmani</td>
+                      <td>${kel1}</td>
+                      <td>${kel2}</td>
+                      <td>${kel3}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="section-title">D. BEA SISWA</div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label">Jenis Bea Siswa</div><div class="col-titik">:</div><div class="col-val">${beasiswaSiswa}</div></div>
+
+                <div class="section-title">E. MENINGGALKAN SEKOLAH SAAT INI</div>
+                <div class="row-data"><div class="col-no">1.</div><div class="col-label">Tamat Belajar</div><div class="col-titik">:</div><div class="col-val">a. Tahun : Th. ........ No. IJAZAH ......</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Melanjutkan ke sekolah : ........ di ........</div></div>
+                
+                <div class="row-data"><div class="col-no">2.</div><div class="col-label">Pindah Sekolah</div><div class="col-titik">:</div><div class="col-val">a. Dari kelas : ........................................</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Ke sekolah : ........................................</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">c. Ke kelas : ........................................</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">d. Tanggal : ........................................</div></div>
+
+                <div class="row-data"><div class="col-no">3.</div><div class="col-label">Keluar Sekolah</div><div class="col-titik">:</div><div class="col-val">a. Tanggal : ........................................</div></div>
+                <div class="row-data"><div class="col-no"></div><div class="col-label"></div><div class="col-titik"></div><div class="col-val">b. Alasan : ........................................</div></div>
+
+                <div class="section-title">F. LAIN-LAIN</div>
+                <div class="row-data align-items-center">
+                  <div class="col-no"></div>
+                  <div class="col-label" style="width: 25%;">Catatan yang penting</div>
+                  <div class="col-titik">:</div>
+                  <div class="col-val" style="width: 42%;">Peserta Didik atas nama <b>${namaSiswa}</b> telah menjadi Peserta Didik Aktif di PKBM Ristek Nusantara Jaya.</div>
+                  <div class="col-3 text-end">
+                    <div class="photo-box-f ms-auto">${fotoHtml}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-end text-muted" style="font-size: 0.7rem;">Nomor Urut Rombel: ${s.noUrut} / 50 — Halaman 2</div>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML += page1 + page2;
+      });
+    }
+  </script>
+</body>
+</html>

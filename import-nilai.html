@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Nilai Matriks Fleksibel 15 Mapel & Paste Vertikal — Buku Induk Digital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .card { border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .table-excel input { border: none; background: transparent; width: 100%; text-align: center; font-size: 0.85rem; padding: 4px; }
+    .table-excel input:focus { background: #fff; outline: 1px solid #1e3e62; box-shadow: 0 0 5px rgba(30,62,98,0.2); }
+    .th-mapel input { border: none; background: #212529; color: white; text-align: center; font-weight: bold; width: 100%; font-size: 0.8rem; padding: 6px 2px; }
+    .th-mapel input::placeholder { color: #adb5bd; font-weight: normal; }
+    .th-mapel input:focus { background: #343a40; outline: 1px solid #fff; }
+    
+    /* Tombol Simpan Mengambang (Floating Save) */
+    .floating-save {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 1050;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR ATAS -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="index.html"><i class="fa-solid fa-arrow-left me-2"></i> Kembali ke Menu Utama</a>
+      <span class="text-white-50 small">Modul Rekap Nilai Matriks Ala Excel (15 Mapel Bebas)</span>
+    </div>
+  </nav>
+
+  <div class="container-fluid my-4 px-4">
+    
+    <div class="card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div>
+          <h4 class="fw-bold text-primary mb-1"><i class="fa-solid fa-table-cells me-2"></i> Pengisian Rekap Nilai & Mata Pelajaran Massal</h4>
+          <p class="text-muted small mb-0">Tips: Ketik nama mapel di header atas. Anda bisa *copy-paste* data vertikal langsung dari Excel ke sel tabel dengan menekan <b>Ctrl + V</b>.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="isi-bukuinduk.html" class="btn btn-outline-secondary btn-sm fw-bold">Ke Isian Buku Induk</a>
+          <button class="btn btn-success btn-sm fw-bold px-4" onclick="simpanSemuaNilai()">
+            <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Semua Nilai
+          </button>
+        </div>
+      </div>
+      <hr>
+
+      <!-- TABEL MATRIKS FLEKSIBEL 15 MAPEL -->
+      <div class="table-responsive" style="max-height: 72vh;">
+        <table class="table table-bordered table-striped table-hover align-middle table-excel" style="font-size: 0.82rem; min-width: 1400px;">
+          <thead class="table-dark text-center sticky-top">
+            <tr>
+              <th style="width: 4%;">No</th>
+              <th style="width: 10%;">NIS</th>
+              <th style="width: 18%;">Nama Lengkap Siswa</th>
+              <!-- 15 KOLOM MAPEL BEBAS -->
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_0" placeholder="Mapel 1" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_1" placeholder="Mapel 2" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_2" placeholder="Mapel 3" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_3" placeholder="Mapel 4" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_4" placeholder="Mapel 5" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_5" placeholder="Mapel 6" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_6" placeholder="Mapel 7" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_7" placeholder="Mapel 8" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_8" placeholder="Mapel 9" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_9" placeholder="Mapel 10" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_10" placeholder="Mapel 11" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_11" placeholder="Mapel 12" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_12" placeholder="Mapel 13" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_13" placeholder="Mapel 14" onchange="simpanHeaderMapel()"></th>
+              <th style="width: 4.5%;" class="th-mapel"><input type="text" id="mapel_14" placeholder="Mapel 15" onchange="simpanHeaderMapel()"></th>
+            </tr>
+          </thead>
+          <tbody id="tabelNilaiBody">
+            <!-- Data siswa dirender dinamis -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TOMBOL SIMPAN MENGAMBANG (FLOATING SAVE) -->
+  <button class="btn btn-success floating-save px-4 py-2 shadow-lg" onclick="simpanSemuaNilai()">
+    <i class="fa-solid fa-floppy-disk me-2"></i> Simpan Nilai
+  </button>
+
+  <script>
+    let dbSiswa = JSON.parse(localStorage.getItem('buku_induk_arsip_db')) || [];
+    let headerMapel = JSON.parse(localStorage.getItem('buku_induk_header_mapel')) || Array(15).fill('');
+
+    window.onload = function() {
+      muatHeaderMapel();
+      muatTabelNilai();
+    };
+
+    function muatHeaderMapel() {
+      for(let i = 0; i < 15; i++) {
+        let input = document.getElementById(`mapel_${i}`);
+        if(input) input.value = headerMapel[i] || '';
+      }
+    }
+
+    function simpanHeaderMapel() {
+      for(let i = 0; i < 15; i++) {
+        let input = document.getElementById(`mapel_${i}`);
+        if(input) headerMapel[i] = input.value.trim();
+      }
+      localStorage.setItem('buku_induk_header_mapel', JSON.stringify(headerMapel));
+    }
+
+    function muatTabelNilai() {
+      let tbody = document.getElementById('tabelNilaiBody');
+      tbody.innerHTML = '';
+
+      if(dbSiswa.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="18" class="text-center py-4 text-muted">Belum ada data siswa. Silakan buat data di Register Siswa terlebih dahulu.</td></tr>`;
+        return;
+      }
+
+      dbSiswa.forEach((s, index) => {
+        if(!s.arrayNilai || !Array.isArray(s.arrayNilai)) {
+          s.arrayNilai = Array(15).fill('');
+        }
+
+        let tr = document.createElement('tr');
+        let htmlCols = `
+          <td class="text-center fw-bold">${s.noUrut || (index + 1)}</td>
+          <td class="text-center">${s.nis || '-'}</td>
+          <td class="fw-semibold">${s.nama || 'Tanpa Nama'}</td>
+        `;
+
+        for(let i = 0; i < 15; i++) {
+          let valNilai = s.arrayNilai[i] !== undefined ? s.arrayNilai[i] : '';
+          htmlCols += `<td><input type="text" class="form-control form-control-sm val-mapel" data-row="${index}" data-col="${i}" value="${valNilai}" placeholder="-" onpaste="handlePasteVertikal(event, ${index}, ${i})"></td>`;
+        }
+
+        tr.innerHTML = htmlCols;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // FITUR PASTE VERTIKAL DARI EXCEL
+    function handlePasteVertikal(e, startRow, colIdx) {
+      e.preventDefault();
+      let clipboardData = e.clipboardData || window.clipboardData;
+      let pastedData = clipboardData.getData('Text');
+      
+      let rows = pastedData.split(/\r\n|\n|\r/).filter(r => r !== '');
+      let allRows = document.querySelectorAll('#tabelNilaiBody tr');
+
+      rows.forEach((val, offset) => {
+        let targetRowIdx = startRow + offset;
+        if(targetRowIdx < allRows.length) {
+          let inputsInRow = allRows[targetRowIdx].querySelectorAll('.val-mapel');
+          if(inputsInRow[colIdx]) {
+            inputsInRow[colIdx].value = val.trim();
+          }
+        }
+      });
+    }
+
+    function simpanSemuaNilai() {
+      simpanHeaderMapel();
+
+      let allRows = document.querySelectorAll('#tabelNilaiBody tr');
+      allRows.forEach((tr, rowIdx) => {
+        let inputs = tr.querySelectorAll('.val-mapel');
+        if(dbSiswa[rowIdx]) {
+          if(!dbSiswa[rowIdx].arrayNilai) dbSiswa[rowIdx].arrayNilai = Array(15).fill('');
+          inputs.forEach((input, colIdx) => {
+            dbSiswa[rowIdx].arrayNilai[colIdx] = input.value.trim();
+          });
+        }
+      });
+
+      localStorage.setItem('buku_induk_arsip_db', JSON.stringify(dbSiswa));
+      alert('Semua rekap nilai 15 mapel dan nama mata pelajaran berhasil disimpan ke database!');
+    }
+  </script>
+</body>
+</html>

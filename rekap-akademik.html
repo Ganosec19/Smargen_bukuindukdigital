@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Akademik & Capaian Pembelajaran — Buku Induk Digital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #f1f5f9; font-family: 'Times New Roman', Times, serif, Arial, sans-serif; color: #000; }
+    
+    /* Tombol Navigasi Layar (Hilang saat diprint) */
+    .no-print { background: #1e3e62; color: white; padding: 12px 0; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    
+    /* Lembar A4 Rekap Akademik */
+    .sheet-a4 {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      margin: 0 auto 20px auto;
+      padding: 12mm 15mm;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      box-sizing: border-box;
+      position: relative;
+      page-break-after: always;
+    }
+
+    /* WATERMARK TUT WURI HANDAYANI */
+    .watermark-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 110mm;
+      height: 110mm;
+      background-image: url('https://i.imgur.com/bwDi18e.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .sheet-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .buku-title { font-weight: bold; text-align: center; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 2px; letter-spacing: 0.5px; }
+    .buku-header-info { text-align: center; font-size: 0.78rem; margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 4px; }
+    
+    .section-title { font-weight: bold; font-size: 0.75rem; text-transform: uppercase; margin-top: 8px; margin-bottom: 3px; background: #e2e8f0; padding: 3px 5px; border: 1px solid #000; }
+    
+    .row-data { font-size: 0.73rem; display: flex; margin-bottom: 2px; line-height: 1.3; align-items: flex-start; }
+    .col-label { width: 22%; flex-shrink: 0; font-weight: bold; }
+    .col-titik { width: 2%; text-align: center; flex-shrink: 0; }
+    .col-val { width: 76%; font-weight: 500; }
+
+    table.table-akademik { width: 100%; font-size: 0.68rem; border-collapse: collapse; border: 1px solid #000; margin-top: 4px; margin-bottom: 4px; }
+    table.table-akademik td, table.table-akademik th { border: 1px solid #000; padding: 3px 4px; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.95); }
+    table.table-akademik th { background: #f1f5f9; font-weight: bold; text-transform: uppercase; }
+    table.table-akademik td.text-left { text-align: left; }
+
+    .input-table-editable, .input-editable {
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-family: inherit;
+      font-size: inherit;
+      outline: none;
+      text-align: inherit;
+    }
+    .input-table-editable:focus, .input-editable:focus {
+      background: #f8fafc;
+    }
+
+    @media print {
+      body { background: white; }
+      .no-print { display: none !important; }
+      .sheet-a4 { box-shadow: none; margin: 0; padding: 12mm 15mm; width: 100%; min-height: 297mm; page-break-after: always; }
+      .watermark-bg { opacity: 0.08 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .input-table-editable, .input-editable { border: none !important; background: transparent !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KONTROL ATAS (TIDAK IKUT TERCETAK) -->
+  <div class="no-print">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <a href="index.html" class="btn btn-outline-light btn-sm fw-bold"><i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Menu Utama</a>
+        <span class="ms-3 small text-white-50">Modul Rekap Akademik & Capaian</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <select id="selectSiswa" class="form-select form-select-sm" style="width: 220px;" onchange="muatDataRekap(this.value)">
+          <!-- Opsi siswa dimuat otomatis -->
+        </select>
+
+        <button class="btn btn-info btn-sm text-dark fw-bold" onclick="cetakSiswaTerpilih()">
+          <i class="fa-solid fa-user me-1"></i> Cetak 1 Siswa Ini
+        </button>
+        <button class="btn btn-warning btn-sm text-dark fw-bold" onclick="cetakSemuaSiswa()">
+          <i class="fa-solid fa-users me-1"></i> Cetak Sekaligus (Semua Rombel)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="containerRekapAkademik">
+    <!-- Konten rekap render otomatis -->
+  </div>
+
+  <script>
+    let dbSiswa = JSON.parse(localStorage.getItem('buku_induk_arsip_db')) || [];
+    let headerMapel = JSON.parse(localStorage.getItem('buku_induk_header_mapel')) || Array(15).fill('');
+
+    window.onload = function() {
+      let select = document.getElementById('selectSiswa');
+      if(dbSiswa.length === 0) {
+        select.innerHTML = `<option>Belum ada data siswa</option>`;
+        document.getElementById('containerRekapAkademik').innerHTML = `<div class="text-center py-5"><h4>Belum ada data siswa. Silakan isi data di Register terlebih dahulu.</h4></div>`;
+        return;
+      }
+
+      select.innerHTML = '';
+      dbSiswa.forEach((s) => {
+        let namaLabel = s.nama ? s.nama : `Slot Kosong (${s.noUrut})`;
+        select.innerHTML += `<option value="${s.id}">No. ${s.noUrut} — ${namaLabel}</option>`;
+      });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      let selectedId = urlParams.get('id');
+      if(selectedId) {
+        select.value = selectedId;
+        renderRekap([dbSiswa.find(s => String(s.id) === String(selectedId)) || dbSiswa[0]]);
+      } else {
+        renderRekap([dbSiswa[0]]);
+      }
+    };
+
+    function muatDataRekap(val) {
+      let siswa = dbSiswa.find(s => String(s.id) === String(val));
+      if(siswa) renderRekap([siswa]);
+    }
+
+    function cetakSiswaTerpilih() {
+      let val = document.getElementById('selectSiswa').value;
+      let siswa = dbSiswa.find(s => String(s.id) === String(val));
+      if(siswa) {
+        renderRekap([siswa]);
+        setTimeout(() => { window.print(); }, 300);
+      }
+    }
+
+    function cetakSemuaSiswa() {
+      renderRekap(dbSiswa);
+      setTimeout(() => { window.print(); }, 500);
+    }
+
+    function renderRekap(dataList) {
+      let container = document.getElementById('containerRekapAkademik');
+      container.innerHTML = '';
+
+      dataList.forEach(s => {
+        let namaSiswa = s.nama || '(Belum diisi)';
+        let nisSiswa = s.nis || '-';
+        let nisnSiswa = s.nisn || '-';
+        let kelasVal = s.kelas || 'VII (Tujuh)';
+        let namaLembaga = s.namaLembagaForm || 'PKBM Ristek Nusantara Jaya';
+        let kurikulumPilihan = s.kurikulum || 'merdeka';
+
+        let listMapelMerdekaHtml = '';
+        let listMapelK13Html = '';
+        let noMapel = 1;
+
+        for(let i = 0; i < 15; i++) {
+          let mapelNama = headerMapel[i] ? headerMapel[i] : '';
+          let nilaiVal = s.arrayNilai && s.arrayNilai[i] !== undefined ? s.arrayNilai[i] : '-';
+
+          if(mapelNama.trim() !== '') {
+            listMapelMerdekaHtml += `
+              <tr>
+                <td>${noMapel}</td>
+                <td class="text-left"><input type="text" class="input-table-editable text-left fw-bold" value="${mapelNama}"></td>
+                <td><input type="text" class="input-table-editable text-center fw-bold" value="${nilaiVal}"></td>
+                <td><input type="text" class="input-table-editable text-left" placeholder="Ketik deskripsi pencapaian kompetensi..."></td>
+              </tr>
+            `;
+
+            let predikatVal = nilaiVal !== '-' ? (parseInt(nilaiVal) >= 75 ? 'B' : 'C') : '-';
+            listMapelK13Html += `
+              <tr>
+                <td>${noMapel}</td>
+                <td class="text-left"><input type="text" class="input-table-editable text-left fw-bold" value="${mapelNama}"></td>
+                <td><input type="text" class="input-table-editable text-center" value="${nilaiVal}"></td>
+                <td><input type="text" class="input-table-editable text-center" value="${predikatVal}"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+                <td><input type="text" class="input-table-editable text-center" value="-"></td>
+              </tr>
+            `;
+            noMapel++;
+          }
+        }
+
+        if(noMapel === 1) {
+          listMapelMerdekaHtml = `<tr><td colspan="4" class="text-center text-muted py-3">Belum ada mata pelajaran yang diatur di menu Matriks Rekap Nilai.</td></tr>`;
+          listMapelK13Html = `<tr><td colspan="11" class="text-center text-muted py-3">Belum ada mata pelajaran yang diatur di menu Matriks Rekap Nilai.</td></tr>`;
+        }
+
+        if (kurikulumPilihan === 'merdeka') {
+          let pageMerdeka = `
+            <div class="sheet-a4">
+              <div class="watermark-bg"></div>
+              <div class="sheet-content">
+                <div>
+                  <div class="buku-title">IV. LAPORAN HASIL CAPAIAN PEMBELAJARAN (KURIKULUM MERDEKA)</div>
+                  <div class="buku-header-info">${namaLembaga}</div>
+
+                  <div class="row-data"><div class="col-label">Nama Warga Belajar</div><div class="col-titik">:</div><div class="col-val"><b>${namaSiswa}</b></div></div>
+                  <div class="row-data"><div class="col-label">NIS / NISN</div><div class="col-titik">:</div><div class="col-val">${nisSiswa} / ${nisnSiswa}</div></div>
+                  <div class="row-data"><div class="col-label">Kelas / Fase</div><div class="col-titik">:</div><div class="col-val">${kelasVal} / Fase D</div></div>
+
+                  <div class="section-title">A. Intrakurikuler (Kelompok Mata Pelajaran Umum)</div>
+                  <table class="table-akademik">
+                    <thead>
+                      <tr>
+                        <th style="width: 6%;">No</th>
+                        <th style="width: 34%;">Mata Pelajaran</th>
+                        <th style="width: 12%;">Nilai Akhir</th>
+                        <th style="width: 48%;">Capaian Kompetensi / Deskripsi Tujuan Pembelajaran</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${listMapelMerdekaHtml}
+                    </tbody>
+                  </table>
+
+                  <div class="section-title">B. Projek Penguatan Profil Pelajar Pancasila (P5) & Ekstrakurikuler</div>
+                  <table class="table-akademik">
+                    <thead>
+                      <tr>
+                        <th style="width: 6%;">No</th>
+                        <th style="width: 34%;">Kegiatan / Tema Projek P5 & Ekstrakurikuler</th>
+                        <th style="width: 50%;">Deskripsi Pencapaian Berdasarkan Rubrik Resmi</th>
+                        <th style="width: 10%;">Status / Kriteria</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td><input type="text" class="input-table-editable text-left fw-bold" value="Projek 1: Gaya Hidup Berkelanjutan"></td>
+                        <td><input type="text" class="input-table-editable text-left" value="Menunjukkan kemampuan tinggi dalam menjaga kebersihan dan kelestarian lingkungan sekitar."></td>
+                        <td><input type="text" class="input-table-editable text-center fw-bold" value="BSH"></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td><input type="text" class="input-table-editable text-left fw-bold" value="Projek 2: Kewirausahaan"></td>
+                        <td><input type="text" class="input-table-editable text-left" value="Aktif dan kreatif dalam merancang serta memasarkan produk wirausaha sederhana."></td>
+                        <td><input type="text" class="input-table-editable text-center fw-bold" value="BSH"></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td><input type="text" class="input-table-editable text-left fw-bold" value="Ekstrakurikuler: Pramuka"></td>
+                        <td><input type="text" class="input-table-editable text-left" value="Disiplin dan aktif mengikuti seluruh kegiatan latihan kepramukaan rutin."></td>
+                        <td><input type="text" class="input-table-editable text-center fw-bold" value="Sangat Baik"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- TANDA TANGAN SEJAJAR RAPI & NAMA DEA -->
+                <div class="row pt-4 pb-2 align-items-end" style="font-size: 0.75rem; page-break-inside: avoid;">
+                  <div class="col-4 text-center">
+                    <div>Mengetahui,</div>
+                    <div>Orang Tua / Wali Murid</div>
+                    <div style="height: 40px;"></div>
+                    <div class="fw-bold"><b>( .................................... )</b></div>
+                    <div><span class="text-transparent">&nbsp;</span></div>
+                  </div>
+                  <div class="col-4"></div>
+                  <div class="col-4 text-center">
+                    <div><input type="text" class="input-editable fw-bold text-center mb-1" value="Bekasi, 21 Juni 2026"></div>
+                    <div>Tutor Pengampu / Wali Kelas</div>
+                    <div style="height: 40px;"></div>
+                    <div class="fw-bold text-decoration-underline">Dea</div>
+                    <div>NIP. ........................................</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          container.innerHTML += pageMerdeka;
+        } else {
+          let pageK13 = `
+            <div class="sheet-a4">
+              <div class="watermark-bg"></div>
+              <div class="sheet-content">
+                <div>
+                  <div class="buku-title">IV. REKAPITULASI NILAI AKHIR KURIKULUM 2013 (K13)</div>
+                  <div class="buku-header-info">${namaLembaga}</div>
+
+                  <div class="row-data"><div class="col-label">Nama Warga Belajar</div><div class="col-titik">:</div><div class="col-val"><b>${namaSiswa}</b></div></div>
+                  <div class="row-data"><div class="col-label">NIS / NISN</div><div class="col-titik">:</div><div class="col-val">${nisSiswa} / ${nisnSiswa}</div></div>
+                  <div class="row-data"><div class="col-label">Kelas</div><div class="col-titik">:</div><div class="col-val">${kelasVal}</div></div>
+
+                  <div class="section-title">Daftar Nilai Hasil Belajar Per Semester (K13)</div>
+                  <table class="table-akademik">
+                    <thead>
+                      <tr>
+                        <th rowspan="2" style="width: 5%;">No</th>
+                        <th rowspan="2" style="width: 30%;">Mata Pelajaran</th>
+                        <th colspan="2" style="width: 16%;">Kelas VII</th>
+                        <th colspan="2" style="width: 16%;">Kelas VIII</th>
+                        <th colspan="2" style="width: 16%;">Kelas IX</th>
+                        <th rowspan="2" style="width: 17%;">Ujian Sekolah</th>
+                      </tr>
+                      <tr>
+                        <th>Sem 1</th><th>Sem 2</th>
+                        <th>Sem 1</th><th>Sem 2</th>
+                        <th>Sem 1</th><th>Sem 2</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${listMapelK13Html}
+                    </tbody>
+                  </table>
+
+                  <div class="section-title">Ketidakhadiran & Status Kelulusan</div>
+                  <div class="row-data mt-1"><div class="col-label">Sakit / Izin / Alfa</div><div class="col-titik">:</div><div class="col-val">Sakit: .... Hari | Izin: .... Hari | Tanpa Keterangan: .... Hari</div></div>
+                  <div class="row-data"><div class="col-label">Keputusan Akhir</div><div class="col-titik">:</div><div class="col-val">Ditetapkan : <b>LULUS / TIDAK LULUS</b> &nbsp;|&nbsp; No. Ijazah : .........................</div></div>
+                </div>
+
+                <!-- TANDA TANGAN SEJAJAR RAPI & NAMA DEA -->
+                <div class="row pt-4 pb-2 align-items-end" style="font-size: 0.75rem; page-break-inside: avoid;">
+                  <div class="col-4 text-center">
+                    <div>Mengetahui,</div>
+                    <div>Orang Tua / Wali Murid</div>
+                    <div style="height: 40px;"></div>
+                    <div class="fw-bold"><b>( .................................... )</b></div>
+                    <div><span class="text-transparent">&nbsp;</span></div>
+                  </div>
+                  <div class="col-4"></div>
+                  <div class="col-4 text-center">
+                    <div><input type="text" class="input-editable fw-bold text-center mb-1" value="Bekasi, 21 Juni 2026"></div>
+                    <div>Tutor Pengampu / Wali Kelas</div>
+                    <div style="height: 40px;"></div>
+                    <div class="fw-bold text-decoration-underline">Dea</div>
+                    <div>NIP. ........................................</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          container.innerHTML += pageK13;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
